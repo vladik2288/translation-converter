@@ -1,0 +1,9 @@
+
+﻿################################################################################
+# Tento soubor .gitignore byl automaticky vytvořen aplikací Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/TranslationParser/.vs/*
+/TranslationParser/TranslationParser/obj
+/TranslationParser/TranslationParser/bin/*
