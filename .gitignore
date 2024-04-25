@@ -4,6 +4,6 @@
 ################################################################################
 
 /.vs
-/TranslationParser/.vs/*
-/TranslationParser/TranslationParser/obj
-/TranslationParser/TranslationParser/bin/*
+/TranslationConverter/.vs/*
+/TranslationConverter/TranslationConverter/obj
+/TranslationConverter/TranslationConverter/bin/*
