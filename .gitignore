@@ -7,3 +7,4 @@
 /TranslationConverter/.vs/*
 /TranslationConverter/TranslationConverter/obj
 /TranslationConverter/TranslationConverter/bin/*
+/TranslationConverter/CsvToJson/obj
