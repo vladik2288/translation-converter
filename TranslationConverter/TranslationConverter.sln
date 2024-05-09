@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TranslationConverter", "TranslationConverter\TranslationConverter.csproj", "{CCF0D478-0BCF-4794-9B3E-F3D386217370}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvToJson", "CsvToJson\CsvToJson.csproj", "{50106DDC-BD85-40EC-8F72-CE291E6956F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CCF0D478-0BCF-4794-9B3E-F3D386217370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCF0D478-0BCF-4794-9B3E-F3D386217370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCF0D478-0BCF-4794-9B3E-F3D386217370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50106DDC-BD85-40EC-8F72-CE291E6956F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50106DDC-BD85-40EC-8F72-CE291E6956F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50106DDC-BD85-40EC-8F72-CE291E6956F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50106DDC-BD85-40EC-8F72-CE291E6956F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
