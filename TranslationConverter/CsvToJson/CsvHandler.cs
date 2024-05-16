@@ -13,33 +13,28 @@ public static class CsvHandler
 {
     public static string CsvToJson(string csvFilePath)
     {
-        var records = new List<Dictionary<string, string>>();
+        //var records = new List<Dictionary<string, string>>();
+        var records = new List<CsvRow>();
+
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             HasHeaderRecord = true,
             Delimiter = ";"
         };
 
+        //reading
         using (var reader = new StreamReader(csvFilePath))
         using (var csv = new CsvReader(reader, config))
         {
-            csv.Read();
-            csv.ReadHeader();
-            while (csv.Read())
-            {
-                var record = new Dictionary<string, string>();
-                foreach (string header in csv.HeaderRecord)
-                {
-                    record[header] = csv.GetField(header);
-                }
-                records.Add(record);
-            }
+            var rows = csv.GetRecords<CsvRow>();
+            records.AddRange(rows);
         }
 
+        //decode keys
         var nestedData = new Dictionary<string, object>();
         foreach (var record in records)
         {
-            InsertNestedDictionary(nestedData, record["Key"], record["Text"]);
+            InsertNestedDictionary(nestedData, record.Key, record.Text);
         }
 
         string json = JsonSerializer.Serialize(nestedData, new JsonSerializerOptions { WriteIndented = true });
