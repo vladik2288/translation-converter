@@ -1,12 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Formats.Asn1;
+using System.Globalization;
+using CsvHelper.Configuration;
+using CsvHelper;
+using System.Text.Json;
 
-namespace CsvToJson
+namespace CsvToJson;
+
+
+public static class CsvHandler
 {
-    internal class CsvHandler
+    public static string CsvToJson(string csvFilePath)
     {
+        var records = new List<Dictionary<string, string>>();
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HasHeaderRecord = true,
+            Delimiter = ";"
+        };
+
+        using (var reader = new StreamReader(csvFilePath))
+        using (var csv = new CsvReader(reader, config))
+        {
+            csv.Read();
+            csv.ReadHeader();
+            while (csv.Read())
+            {
+                var record = new Dictionary<string, string>();
+                foreach (string header in csv.HeaderRecord)
+                {
+                    record[header] = csv.GetField(header);
+                }
+                records.Add(record);
+            }
+        }
+
+        var nestedData = new Dictionary<string, object>();
+        foreach (var record in records)
+        {
+            InsertNestedDictionary(nestedData, record["Key"], record["Text"]);
+        }
+
+        string json = JsonSerializer.Serialize(nestedData, new JsonSerializerOptions { WriteIndented = true });
+        return json;
+    }
+
+    private static void InsertNestedDictionary(Dictionary<string, object> currentDict, string keyPath, string value)
+    {
+        string[] parts = keyPath.Split('.');
+        Dictionary<string, object> cursor = currentDict;
+
+        for (int i = 0; i < parts.Length - 1; i++)
+        {
+            if (!cursor.ContainsKey(parts[i]))
+            {
+                cursor[parts[i]] = new Dictionary<string, object>();
+            }
+            cursor = (Dictionary<string, object>)cursor[parts[i]];
+        }
+
+        cursor[parts[^1]] = value;  // `parts[^1]` is the last element in parts, equivalent to `parts[parts.Length - 1]`
     }
 }
