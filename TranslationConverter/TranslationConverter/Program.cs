@@ -1,21 +1,21 @@
-﻿using System.Globalization;
-using System.Text.Json;
-using CsvHelper;
-using CsvHelper.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace TranslationConverter;
 
 public class TranslationConverter
 {
-
-    //rework utf 8
-
     static void Main(string[] args)
     {
+        var builder = new ConfigurationBuilder();
+        builder.SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-        //string jsonFilePath = @"C:\temp\locale\en-GB\translations.json";
-        string jsonFilePath = @"C:\temp\translation.json";
-        string csvFilePath = @"C:\temp\CSVoutput.csv";
+        IConfiguration config = builder.Build();
+
+        string jsonFilePath = config["filePath:jsonFile"];
+        string csvFilePath = config["filePath:csvFile"];
+
+        Console.WriteLine(jsonFilePath);
 
         string? jsonContent = JsonHandler.ReadJsonFile(jsonFilePath);
         if (jsonContent==null)
