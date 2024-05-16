@@ -8,12 +8,10 @@ using System.Text.Json;
 
 namespace CsvToJson;
 
-
 public static class CsvHandler
 {
     public static string CsvToJson(string csvFilePath)
     {
-        //var records = new List<Dictionary<string, string>>();
         var records = new List<CsvRow>();
 
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)

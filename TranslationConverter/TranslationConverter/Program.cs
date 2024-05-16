@@ -15,8 +15,6 @@ public class TranslationConverter
         string jsonFilePath = config["filePath:jsonFile"];
         string csvFilePath = config["filePath:csvFile"];
 
-        Console.WriteLine(jsonFilePath);
-
         string? jsonContent = JsonHandler.ReadJsonFile(jsonFilePath);
         if (jsonContent==null)
         {
@@ -24,16 +22,9 @@ public class TranslationConverter
             return;
         }
 
-        Console.WriteLine(jsonContent);
-        //ConvertJsonToCsv(jsonContent, csvFilePath);
-        //JsonHandler.WriteDataToCsv(csvFilePath);
+        //Console.WriteLine(jsonContent);
 
         var data = JsonHandler.JsonToDictionary(jsonContent); // Get dictionary.
         JsonHandler.WriteDataToCsv(csvFilePath, data); // Pass to CSV writer.
     }
-
-
-    
-
-    
 }

@@ -7,11 +7,9 @@ namespace TranslationConverter;
 
 public static class JsonHandler
 {
-    //public static Dictionary<string, Dictionary<string, object>> sharedData = new Dictionary<string, Dictionary<string, object>>();
-
     public static string? ReadJsonFile(string jsonFilePath)
     {
-        string? jsonContent = null; // string jsonContent = ""; ?
+        string? jsonContent = null;
         try
         {
             using (StreamReader reader = new StreamReader(jsonFilePath))
@@ -51,20 +49,6 @@ public static class JsonHandler
         };
     }
 
-    /*
-     switch (jsonElement.ValueKind)
-    {
-        case JsonValueKind.Number:
-            return jsonElement.GetDouble();
-        case JsonValueKind.String:
-            return jsonElement.GetString();
-        case JsonValueKind.True:
-            return true;
-        case JsonValueKind.False:
-            return false;
-    */
-
-    //make private again later
     private static void FlattenJson(JsonElement element, Dictionary<string, object> flatDictionary, string prefix)
     {
         foreach (JsonProperty property in element.EnumerateObject())
@@ -78,7 +62,6 @@ public static class JsonHandler
             }
             else
             {
-                //flatDictionary.Add(key, DeserializeJsonValue(value)); // Add key-value pair to flat dictionary
                 flatDictionary.Add(key.TrimStart('.'), DeserializeJsonValue(value));
             }
         }
@@ -115,66 +98,7 @@ public static class JsonHandler
                 csv.NextRecord();
             }
         }
-
         Console.WriteLine("Conversion completed successfully.");
     }
-
-    /*
-    public static Dictionary<string, Dictionary<string, object>> JsonToDictionary(string jsonContent)
-    {
-        // Deserialize JSON to a dictionary of dictionaries
-        Dictionary<string, Dictionary<string, object>> data = new Dictionary<string, Dictionary<string, object>>();
-        using (JsonDocument document = JsonDocument.Parse(jsonContent))
-        {
-            JsonElement root = document.RootElement;
-
-            foreach (JsonProperty topLevelProperty in root.EnumerateObject())
-            {
-                string topLevelKey = topLevelProperty.Name;
-                JsonElement topLevelValue = topLevelProperty.Value;
-
-                if (topLevelValue.ValueKind == JsonValueKind.Object)
-                {
-                    // Extract nested properties into a flat dictionary
-                    Dictionary<string, object> flatDictionary = new Dictionary<string, object>();
-                    //delete jsonHandler later
-                    FlattenJson(topLevelValue, flatDictionary, topLevelKey);
-                    data.Add(topLevelKey, flatDictionary);
-                }
-            }   
-        }
-        return data;
-    }
-    */
-
-    /*
-    public static void WriteDataToCsv(string csvFilePath, Dictionary<string, Dictionary<string, object>> data)
-    {
-        // Write data to CSV
-        using (var writer = new StreamWriter(csvFilePath))
-        using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true, Delimiter = ";" }))
-        {
-            // Write header (column names)
-            csv.WriteField("Category");
-            csv.WriteField("Key");
-            csv.WriteField("Text");
-            csv.NextRecord();
-
-            // Write rows
-            foreach (var category in data.Keys)
-            {
-                foreach (var kvp in data[category])
-                {
-                    csv.WriteField(category);
-                    csv.WriteField(kvp.Key);
-                    csv.WriteField(kvp.Value?.ToString() ?? ""); // Handle null values
-                    csv.NextRecord();
-                }
-            }
-        }
-        Console.WriteLine("Conversion completed successfully.");
-    }
-    */
-
 }
 
