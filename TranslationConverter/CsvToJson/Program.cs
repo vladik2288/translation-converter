@@ -1,17 +1,22 @@
-﻿namespace CsvToJson
+﻿using Microsoft.Extensions.Configuration;
+
+namespace CsvToJson;
+
+internal class Program
 {
-    
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            string csvFilePath = @"C:\temp\CSVoutput.csv";
-            string jsonFilePath = @"C:\temp\JSONoutput.json";
+        var builder = new ConfigurationBuilder();
+        builder.SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            string jsonContent = CsvHandler.CsvToJson(csvFilePath);
-            File.WriteAllText(jsonFilePath, jsonContent);
-            Console.WriteLine("CSV to JSON conversion completed.");
+        IConfiguration config = builder.Build();
 
-        }
+        string jsonFilePath = config["filePath:jsonFile"];
+        string csvFilePath = config["filePath:csvFile"];
+
+        string jsonContent = CsvHandler.CsvToJson(csvFilePath);
+        File.WriteAllText(jsonFilePath, jsonContent);
+        Console.WriteLine("CSV to JSON conversion completed.");
     }
 }
