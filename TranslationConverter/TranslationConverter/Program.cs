@@ -7,17 +7,15 @@ namespace TranslationConverter;
 
 public class TranslationConverter
 {
-    //rewrite switch
-    //conversion problem
-    //try catch
 
     //rework utf 8
 
     static void Main(string[] args)
     {
 
-        string jsonFilePath = @"C:\temp\locale\ua-UA\translations.json";
-        string csvFilePath = @"C:\temp\output.csv";
+        //string jsonFilePath = @"C:\temp\locale\en-GB\translations.json";
+        string jsonFilePath = @"C:\temp\translation.json";
+        string csvFilePath = @"C:\temp\CSVoutput.csv";
 
         string? jsonContent = JsonHandler.ReadJsonFile(jsonFilePath);
         if (jsonContent==null)
