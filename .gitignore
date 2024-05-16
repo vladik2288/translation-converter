@@ -8,3 +8,4 @@
 /TranslationConverter/TranslationConverter/obj
 /TranslationConverter/TranslationConverter/bin/*
 /TranslationConverter/CsvToJson/obj
+/TranslationConverter/CsvToJson/bin/Debug/net8.0
