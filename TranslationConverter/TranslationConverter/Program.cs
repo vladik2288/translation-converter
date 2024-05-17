@@ -18,13 +18,20 @@ public class TranslationConverter
         string? jsonContent = JsonHandler.ReadJsonFile(jsonFilePath);
         if (jsonContent==null)
         {
-            Console.WriteLine($"Error occured, {jsonContent} is null.");
+            Console.WriteLine($"Error occured, jsonContent is null.");
+            Console.WriteLine("");
+            Console.WriteLine("Press Enter to exit");
+            Console.ReadLine();
             return;
         }
-
         //Console.WriteLine(jsonContent);
 
         var data = JsonHandler.JsonToDictionary(jsonContent); // Get dictionary.
         JsonHandler.WriteDataToCsv(csvFilePath, data); // Pass to CSV writer.
+
+        Console.WriteLine("Conversion completed successfully.");
+        Console.WriteLine("");
+        Console.WriteLine("Press Enter to exit");
+        Console.ReadLine();
     }
 }
