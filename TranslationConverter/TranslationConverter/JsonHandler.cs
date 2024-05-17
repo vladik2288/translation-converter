@@ -2,6 +2,7 @@
 using CsvHelper;
 using System.Globalization;
 using System.Text.Json;
+using System.Text;
 
 namespace TranslationConverter;
 
@@ -29,6 +30,8 @@ public static class JsonHandler
         {
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
+
+        //Console.WriteLine(jsonContent);
         return jsonContent;
     }
 
@@ -82,7 +85,7 @@ public static class JsonHandler
 
     public static void WriteDataToCsv(string csvFilePath, Dictionary<string, object> data)
     {
-        using (var writer = new StreamWriter(csvFilePath))
+        using (var writer = new StreamWriter(csvFilePath, false, Encoding.Unicode))
         using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true, Delimiter = ";" }))
         {
             // Write header (column names)
@@ -98,7 +101,6 @@ public static class JsonHandler
                 csv.NextRecord();
             }
         }
-        Console.WriteLine("Conversion completed successfully.");
     }
 }
 
