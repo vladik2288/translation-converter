@@ -10,7 +10,8 @@ namespace CsvToJson;
 
 public static class CsvHandler
 {
-    public static string CsvToJson(string csvFilePath)
+    // Reads a CSV file and returns a list of CsvRow records.
+    public static List<CsvRow> ReadCsvFile(string csvFilePath)
     {
         var records = new List<CsvRow>();
 
@@ -20,7 +21,6 @@ public static class CsvHandler
             Delimiter = ";"
         };
 
-        //reading
         using (var reader = new StreamReader(csvFilePath))
         using (var csv = new CsvReader(reader, config))
         {
@@ -28,17 +28,39 @@ public static class CsvHandler
             records.AddRange(rows);
         }
 
-        //decode keys
+        return records;
+    }
+
+    // Builds a nested dictionary from a list of CsvRow records.
+    public static Dictionary<string, object> BuildNestedDictionary(List<CsvRow> records)
+    {
         var nestedData = new Dictionary<string, object>();
+
         foreach (var record in records)
         {
             InsertNestedDictionary(nestedData, record.Key, record.Text);
         }
 
+        return nestedData;
+    }
+
+    // Converts a nested dictionary to a JSON string.
+    public static string ConvertDictionaryToJson(Dictionary<string, object> nestedData)
+    {
         string json = JsonSerializer.Serialize(nestedData, new JsonSerializerOptions { WriteIndented = true });
         return json;
     }
 
+    // Converts a CSV file to a JSON string.
+    public static string CsvToJson(string csvFilePath)
+    {
+        var records = ReadCsvFile(csvFilePath);
+        var nestedData = BuildNestedDictionary(records);
+        string json = ConvertDictionaryToJson(nestedData);
+        return json;
+    }
+
+    // Inserts a value into a nested dictionary based on a key path.
     private static void InsertNestedDictionary(Dictionary<string, object> currentDict, string keyPath, string value)
     {
         string[] parts = keyPath.Split('.');

@@ -15,7 +15,18 @@ internal class Program
         string jsonFilePath = config["filePath:jsonFile"];
         string csvFilePath = config["filePath:csvFile"];
 
-        string jsonContent = CsvHandler.CsvToJson(csvFilePath);
+        // Read CSV file
+        var records = CsvHandler.ReadCsvFile(csvFilePath);
+
+        // Build nested dictionary from records
+        var nestedData = CsvHandler.BuildNestedDictionary(records);
+
+        // Convert nested dictionary to JSON
+        string jsonContent = CsvHandler.ConvertDictionaryToJson(nestedData);
+
+        //string jsonContent = CsvHandler.CsvToJson(csvFilePath);
+
+        // Write JSON to file
         File.WriteAllText(jsonFilePath, jsonContent);
         Console.WriteLine("CSV to JSON conversion completed.");
     }
