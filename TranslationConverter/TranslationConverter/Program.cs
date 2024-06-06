@@ -63,8 +63,8 @@ public class TranslationConverter
         string jsonFilePath = files[index].FullName;
         Console.WriteLine($"jsonFilePath is : {jsonFilePath}");
         Console.WriteLine();
-
         //-------------------------------------------
+
         string? jsonContent = JsonHandler.ReadJsonFile(jsonFilePath);
         if (jsonContent==null)
         {
@@ -76,7 +76,7 @@ public class TranslationConverter
         }
 
         var data = JsonHandler.JsonToDictionary(jsonContent); // Get dictionary.
-        //
+
         string timestampedCsvFilePath = JsonHandler.GetTimestampedCsvFilePath(csvOutputFolderPath);
         JsonHandler.WriteDataToCsv(timestampedCsvFilePath, data); // Pass to CSV writer.
 
