@@ -44,8 +44,9 @@ public static class CsvHandler
     public static string ConvertDictionaryToJson(Dictionary<string, object> nestedData)
     {
         string json = JsonSerializer.Serialize(nestedData, new JsonSerializerOptions 
-        { 
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        {
+            //https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/character-encoding
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping, //TODO - ???
             WriteIndented = true 
         });
         return json;
