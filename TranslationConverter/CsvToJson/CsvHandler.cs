@@ -48,8 +48,7 @@ public static class CsvHandler
     {
         string json = JsonSerializer.Serialize(nestedData, new JsonSerializerOptions 
         { 
-            //added encoder for cyrillic letters
-            Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic), 
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
             WriteIndented = true 
         });
         return json;
