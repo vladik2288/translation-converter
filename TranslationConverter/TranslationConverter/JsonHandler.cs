@@ -103,11 +103,11 @@ public static class JsonHandler
         }
     }
 
+    //Create a current time timestamp for generated file
     public static string GetTimestampedCsvFilePath(string baseFolderPath)
-    { 
+    {
         string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
         return Path.Combine(baseFolderPath, $"csvOutput_{timestamp}.csv");
     }
-
 }
 
