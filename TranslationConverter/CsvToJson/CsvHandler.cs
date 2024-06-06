@@ -3,7 +3,6 @@ using CsvHelper.Configuration;
 using CsvHelper;
 using System.Text.Json;
 using System.Text.Encodings.Web;
-using System.Text.Unicode;
 
 namespace CsvToJson;
 
@@ -26,7 +25,6 @@ public static class CsvHandler
             var rows = csv.GetRecords<CsvRow>();
             records.AddRange(rows);
         }
-
         return records;
     }
 
@@ -39,7 +37,6 @@ public static class CsvHandler
         {
             InsertNestedDictionary(nestedData, record.Key, record.Text);
         }
-
         return nestedData;
     }
 
