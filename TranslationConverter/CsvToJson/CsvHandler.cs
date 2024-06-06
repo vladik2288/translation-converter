@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Formats.Asn1;
-using System.Globalization;
+﻿using System.Globalization;
 using CsvHelper.Configuration;
 using CsvHelper;
 using System.Text.Json;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace CsvToJson;
 
@@ -47,7 +46,12 @@ public static class CsvHandler
     // Converts a nested dictionary to a JSON string.
     public static string ConvertDictionaryToJson(Dictionary<string, object> nestedData)
     {
-        string json = JsonSerializer.Serialize(nestedData, new JsonSerializerOptions { WriteIndented = true });
+        string json = JsonSerializer.Serialize(nestedData, new JsonSerializerOptions 
+        { 
+            //added encoder for cyrillic letters
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic), 
+            WriteIndented = true 
+        });
         return json;
     }
 
@@ -76,5 +80,12 @@ public static class CsvHandler
         }
 
         cursor[parts[^1]] = value;  // `parts[^1]` is the last element in parts, equivalent to `parts[parts.Length - 1]`
+    }
+
+    //Create a current time timestamp for generated file
+    public static string GetTimestampedJsonFilePath(string baseFolderPath)
+    {
+        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        return Path.Combine(baseFolderPath, $"jsonOutput_{timestamp}.json");
     }
 }
