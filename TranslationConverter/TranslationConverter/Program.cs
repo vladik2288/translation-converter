@@ -12,12 +12,12 @@ public class TranslationConverter
 
         IConfiguration config = builder.Build();
 
-        string jsonFilePath = config["filePath:jsonFile"];
-        string csvFilePath = config["filePath:csvFile"];
+        string jsonFolderPath = config["folderPath:jsonInput"];
+        string csvOutputFolderPath = config["folderPath:csvOutput"];
 
-        //------------------------CONSOLE EXPERIENCE---------------
+        // CONSOLE
         //Directory specification
-        DirectoryInfo di = new DirectoryInfo("C:\\temp\\translationConverterFiles\\1_jsonInputFile");
+        DirectoryInfo di = new DirectoryInfo(jsonFolderPath);
         FileInfo[] files = di.GetFiles("*.json");
 
         //Reads the files in the folder
@@ -28,22 +28,16 @@ public class TranslationConverter
         }
         Console.WriteLine();
 
-        //for debug
-        int length = files.Length;
-        Console.WriteLine($"The length is: {length}");
-
-
         //File selection
         Console.WriteLine("Select file:");
-        string a;
-        int x = 0;
+        
+        int index = -1;
         bool success = false;
-        int number = 0;
 
         while (!success)
         {
             var input = Console.ReadLine();
-            if (int.TryParse(input, out number))
+            if (int.TryParse(input, out int number))
             {
                 var idx = number - 1; //zerobased
 
@@ -54,8 +48,8 @@ public class TranslationConverter
                 }
                 else
                 {
-                    x = idx;
-                    Console.WriteLine($"Selected index is {idx}");
+                    index = idx;
+                    //Console.WriteLine($"Selected index is {idx}");
                     success = true;
                 }
             }
@@ -65,15 +59,12 @@ public class TranslationConverter
                 success = false;
             }
         }
-        
-        int index = x;
-        Console.WriteLine($"Index is {index}");
-        Console.WriteLine($"The selected file path is: {files[index].FullName}");
 
-        jsonFilePath = files[index].FullName;
+        string jsonFilePath = files[index].FullName;
         Console.WriteLine($"jsonFilePath is : {jsonFilePath}");
+        Console.WriteLine();
 
-        //---------------------------------------------------------------------------------------------------------
+        //-------------------------------------------
         string? jsonContent = JsonHandler.ReadJsonFile(jsonFilePath);
         if (jsonContent==null)
         {
@@ -83,12 +74,14 @@ public class TranslationConverter
             Console.ReadLine();
             return;
         }
-        //Console.WriteLine(jsonContent);
 
         var data = JsonHandler.JsonToDictionary(jsonContent); // Get dictionary.
-        JsonHandler.WriteDataToCsv(csvFilePath, data); // Pass to CSV writer.
+        //
+        string timestampedCsvFilePath = JsonHandler.GetTimestampedCsvFilePath(csvOutputFolderPath);
+        JsonHandler.WriteDataToCsv(timestampedCsvFilePath, data); // Pass to CSV writer.
 
         Console.WriteLine("Conversion completed successfully.");
+        Console.WriteLine($"Output file location is: {timestampedCsvFilePath}");
         Console.WriteLine("");
         Console.WriteLine("Press Enter to exit");
         Console.ReadLine();
